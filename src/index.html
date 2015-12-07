@@ -18,12 +18,42 @@
     <div id="map"></div>
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script>
+      // Initialize map.
+
       var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
       var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
       var osmTileLayer = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 18, attribution: osmAttrib});
       var map = L.map('map');
       map.addLayer(osmTileLayer);
-      map.setView([51.505, -0.09], 13);
+
+      // Draw a polyline and zoom the map to the polyline.
+
+      var latlngs1 = [
+        [51.505, -0.09],
+        [51, -0.01],
+        [51.80, -0.11],
+      ];
+      var polyline1 = L.polyline(latlngs1, {color: 'red'});
+
+      var latlngs2 = [
+        [51.50, -00],
+        [51, -18],
+        [51.80, 18],
+      ];
+      var polyline2 = L.polyline(latlngs2, {color: 'blue'});
+
+      polyline1.addTo(map);
+      polyline2.addTo(map);
+
+      var latlngs = latlngs1.concat(latlngs2);
+      var bounds = L.latLngBounds(latlngs)
+      map.fitBounds(bounds);
+
+      // Create popup and bind it to the blue polyline.
+
+      var popup = L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>');
+
+      polyline2.bindPopup(popup);
     </script>
   </body>
 </html>
