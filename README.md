@@ -10,6 +10,7 @@ Experimentation around Leaflet and displaying data
 
 ## Server-side steps
 
+- [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) is implemented with [Flask-CORS](https://flask-cors.readthedocs.org/en/latest/)
 ```
 cd server
 pip install --user -r requirements.txt

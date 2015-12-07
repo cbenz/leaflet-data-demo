@@ -1,10 +1,12 @@
 import csv
 import os
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
+from flask.ext.cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 script_dir = os.path.realpath(os.path.dirname(__file__))
@@ -29,7 +31,10 @@ def positions():
             for row in reader
             ]
     # print request.args
-    return jsonify({'data': rows})
+    positions_by_id = {}
+    for row in rows:
+        positions_by_id.setdefault(row['id'], []).append(row)
+    return jsonify({'data': positions_by_id})
 
 
 if __name__ == "__main__":
