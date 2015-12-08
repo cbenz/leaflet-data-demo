@@ -12,6 +12,9 @@ function fetchPositions(url) {
 
 function renderTrips(map, id, latlngs) {
   var polyline = L.polyline(latlngs, {color: 'blue'});
+  var animatedMarker = L.animatedMarker(polyline.getLatLngs());
+  
+  map.addLayer(animatedMarker);
   polyline.addTo(map);
   var bounds = L.latLngBounds(latlngs)
   map.fitBounds(polyline.getBounds());
