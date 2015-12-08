@@ -13,11 +13,9 @@ function fetchPositions(url) {
 function renderTrips(map, id, latlngs) {
   var polyline = L.polyline(latlngs, {color: 'blue'});
   var animatedMarker = L.animatedMarker(polyline.getLatLngs());
-  
+
   map.addLayer(animatedMarker);
   polyline.addTo(map);
-  var bounds = L.latLngBounds(latlngs)
-  map.fitBounds(polyline.getBounds());
   var popup = L.popup().setContent('<p>Trip ID = ' + id + '</p>');
   polyline.bindPopup(popup);
 }
@@ -39,9 +37,13 @@ map.addLayer(osmTileLayer);
 
 fetchPositions(positionsUrl).then(function(positionsById) {
   var ids = Object.keys(positionsById);
+  var all_latlngs = [];
   for (id in ids) {
     var positions = positionsById[id];
     var latlngs = getLatLngs(positions);
     renderTrips(map, id, latlngs);
+    var all_latlngs = all_latlngs.concat(latlngs);
   }
+  var bounds = L.latLngBounds(all_latlngs)
+  map.fitBounds(bounds);
 })
