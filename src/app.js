@@ -1,4 +1,4 @@
-var positionsUrl = 'http://localhost:5000/positions.json';
+var positionsUrl = 'http://localhost:5000/map/dummy_positions.csv';
 
 function parseJSON(response) {
   return response.json();

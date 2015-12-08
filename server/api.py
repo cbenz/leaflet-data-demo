@@ -1,7 +1,7 @@
 import csv
 import os
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask.ext.cors import CORS
 
 
@@ -21,16 +21,16 @@ def csv_row_to_position(csv_row):
         }
 
 
-@app.route("/positions.json")
-def positions():
-    csv_file_path = os.path.join(script_dir, 'dummy_positions.csv')
+@app.route("/map/<filename>")
+def positions(filename):
+    print request.args
+    csv_file_path = os.path.join(script_dir, filename)
     with open(csv_file_path) as csv_file:
         reader = csv.DictReader(csv_file)
         rows = [
             csv_row_to_position(row)
             for row in reader
             ]
-    # print request.args
     positions_by_id = {}
     for row in rows:
         positions_by_id.setdefault(row['id'], []).append(row)
