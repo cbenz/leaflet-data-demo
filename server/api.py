@@ -12,7 +12,7 @@ app.debug = True
 script_dir = os.path.realpath(os.path.dirname(__file__))
 
 
-def csv_row_to_position(csv_row):
+def csv_row_to_json_item(csv_row):
     return {
         'id': int(csv_row['id']),
         'timestamp': int(csv_row['timestamp']),
@@ -26,14 +26,14 @@ def positions():
     csv_file_path = os.path.join(script_dir, 'dummy_positions.csv')
     with open(csv_file_path) as csv_file:
         reader = csv.DictReader(csv_file)
-        rows = [
-            csv_row_to_position(row)
-            for row in reader
-            ]
-    # print request.args
+        csv_rows = list(reader)
+    positions_json = [
+        csv_row_to_json_item(row)
+        for row in csv_rows
+        ]
     positions_by_id = {}
-    for row in rows:
-        positions_by_id.setdefault(row['id'], []).append(row)
+    for position_json in positions_json:
+        positions_by_id.setdefault(position_json['id'], []).append(position_json)
     return jsonify({'data': positions_by_id})
 
 
